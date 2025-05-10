@@ -12,9 +12,8 @@ export const App = () => {
 	const clickBack = () => {
 		setActiveIndex(activeIndex - 1)
 	}
-	const clickStep = (event) => {
-		setActiveIndex(Number(event.target.closest('li').id))
-		console.log(event.target.closest('li'))
+	const clickStep = (elId) => {
+		setActiveIndex(elId)
 	}
 
 	return (
@@ -43,7 +42,7 @@ export const App = () => {
 									}
 								>
 									<button
-										onClick={clickStep}
+										onClick={() => clickStep(index)}
 										className={styles['steps-item-button']}
 									>
 										{index + 1}

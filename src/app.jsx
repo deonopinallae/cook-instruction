@@ -6,14 +6,19 @@ export const App = () => {
 	const [activeIndex, setActiveIndex] = useState(0)
 	const steps = [...data]
 
-	const clickNext = () => {
-		setActiveIndex(activeIndex + 1)
-	}
+	const isFirstStep = activeIndex === 0
+	const isLastStep = activeIndex === steps.length - 1
+
 	const clickBack = () => {
 		setActiveIndex(activeIndex - 1)
 	}
 	const clickStep = (elId) => {
 		setActiveIndex(elId)
+	}
+	const clickNext = () => {
+		isLastStep
+			? setActiveIndex(0)
+			: setActiveIndex(activeIndex + 1)
 	}
 
 	return (
@@ -22,9 +27,7 @@ export const App = () => {
 				<h1>Инструкция по готовке пельменей</h1>
 				<div className={styles.steps}>
 					<div className={styles['steps-content']}>
-						{steps.map((el, index) => {
-							return activeIndex === index ? el.content : null
-						})}
+						{steps[activeIndex]?.content}
 					</div>
 					<ul className={styles['steps-list']}>
 						{steps.map(({ id, title }, index) => {
@@ -55,20 +58,16 @@ export const App = () => {
 					<div className={styles['buttons-container']}>
 						<button
 							onClick={clickBack}
-							disabled={activeIndex === 0 ? true : false}
+							disabled={isFirstStep}
 							className={styles.button}
 						>
 							Назад
 						</button>
 						<button
-							onClick={
-								activeIndex === steps.length
-									? setActiveIndex(0)
-									: clickNext
-							}
+							onClick={clickNext}
 							className={styles.button}
 						>
-							{activeIndex === steps.length - 1
+							{isLastStep
 								? 'Начать сначала'
 								: 'Далее'}
 						</button>
